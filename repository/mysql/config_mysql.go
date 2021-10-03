@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/diii1/outlet/repository/mysql/customers"
+	"github.com/diii1/outlet/repository/mysql/productTypes"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -33,5 +35,6 @@ func (config *ConfigDB) IntialDB() *gorm.DB {
 }
 
 func MigrateDB(db *gorm.DB) {
-
+	db.AutoMigrate(&productTypes.ProductTypes{})
+	db.AutoMigrate(&customers.Customers{})
 }

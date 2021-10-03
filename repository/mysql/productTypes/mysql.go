@@ -16,11 +16,29 @@ func NewRepositoryMySQL(db *gorm.DB) productTypes.Repository {
 }
 
 func (repository repositoryProductTypes) Insert(productType *productTypes.Domain) (*productTypes.Domain, error) {
-	return nil, nil
+	recordProductType := fromDomain(*productType)
+	if err := repository.DB.Create(&recordProductType).Error; err != nil {
+		return &productTypes.Domain{}, err
+	}
+	result := toDomain(recordProductType)
+	return &result, nil
 }
 func (repository repositoryProductTypes) Update(id int, productType *productTypes.Domain) (*productTypes.Domain, error) {
-	return nil, nil
+	recordProductType := fromDomain(*productType)
+	if err := repository.DB.Where("id = ?", id).Updates(&recordProductType).Error; err != nil {
+		return &productTypes.Domain{}, err
+	}
+	if err := repository.DB.Where("id = ?", id).First(&recordProductType).Error; err != nil {
+		return &productTypes.Domain{}, err
+	}
+	result := toDomain(recordProductType)
+	return &result, nil
 }
 func (repository repositoryProductTypes) FindByID(id int) (*productTypes.Domain, error) {
-	return nil, nil
+	var recordProductType ProductTypes
+	if err := repository.DB.Where("id = ?", id).First(&recordProductType).Error; err != nil {
+		return &productTypes.Domain{}, err
+	}
+	result := toDomain(recordProductType)
+	return &result, nil
 }
