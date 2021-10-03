@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	_middleware "outlet/v1/app/middleware"
 	_handlerCustomer "outlet/v1/app/presenter/customers"
 	_handlerProductType "outlet/v1/app/presenter/productTypes"
 	"outlet/v1/app/presenter/routes"
@@ -57,5 +58,6 @@ func main() {
 		HandlerCustomer:    *customerHandler,
 	}
 	routesInit.RouteRegister(e)
+	_middleware.LogMiddleware(e)
 	log.Fatal(e.Start(viper.GetString("server.address")))
 }
