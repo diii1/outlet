@@ -41,7 +41,7 @@ func (handler *Presenter) Update(echoContext echo.Context) error {
 	var req _request.Products
 	domain := _request.ToDomain(req)
 	id, _ := strconv.Atoi(echoContext.Param("id"))
-	resp, err := handler.serviceProduct.Update(id, domain)
+	resp, err := handler.serviceProduct.Update(domain, id)
 	if err != nil {
 		response := helpers.APIResponse("Failed update Product", http.StatusBadRequest, "Error", nil)
 		return echoContext.JSON(http.StatusBadRequest, response)

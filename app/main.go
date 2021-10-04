@@ -3,14 +3,12 @@ package main
 import (
 	"log"
 	_middleware "outlet/v1/app/middleware"
+	"outlet/v1/app/middleware/auth"
 	_handlerCustomer "outlet/v1/app/presenter/customers"
-	_handlerProductType "outlet/v1/app/presenter/productTypes"
-	"outlet/v1/app/presenter/routes"
+	"outlet/v1/app/routes"
 	_serviceCustomer "outlet/v1/bussiness/customers"
-	_serviceProductType "outlet/v1/bussiness/productTypes"
 	mysqlRepo "outlet/v1/repository/mysql"
-	_repoCustomer "outlet/v1/repository/mysql/customers"
-	_repoProductType "outlet/v1/repository/mysql/productTypes"
+	_repositoryCustomer "outlet/v1/repository/mysql/customers"
 
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
@@ -40,23 +38,25 @@ func main() {
 		DBDatabase: viper.GetString(`database.name`),
 	}
 
+	configJWT := auth.ConfigJWT{
+		SecretJWT:       viper.GetString(`jwt.secret`),
+		ExpiresDuration: viper.GetInt(`jwt.expired`),
+	}
+
 	db := configDB.IntialDB()
 	mysqlRepo.MigrateDB(db)
 
 	e := echo.New()
 
-	productTypeRepository := _repoProductType.NewRepositoryMySQL(db)
-	productTypeService := _serviceProductType.NewService(productTypeRepository)
-	productTypeHandler := _handlerProductType.NewHandler(productTypeService)
-
-	customerRepository := _repoCustomer.NewRepositoryMySQL(db)
-	customerService := _serviceCustomer.NewService(customerRepository)
-	customerHandler := _handlerCustomer.NewHandler(customerService)
+	customerRepository := _repositoryCustomer.NewRepositoryMySQL(db)
+	customerService := _serviceCustomer.NewService(customerRepository, &configJWT)
+	customerHandler := _handlerCustomer.NewHandler(customerService, &configJWT)
 
 	routesInit := routes.HandlerList{
-		HandlerProductType: *productTypeHandler,
-		HandlerCustomer:    *customerHandler,
+		JWTMiddleware:   configJWT.Init(),
+		HandlerCustomer: *customerHandler,
 	}
+
 	routesInit.RouteRegister(e)
 	_middleware.LogMiddleware(e)
 	log.Fatal(e.Start(viper.GetString("server.address")))

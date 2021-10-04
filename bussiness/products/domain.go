@@ -14,12 +14,12 @@ type Domain struct {
 
 type Service interface {
 	AddProduct(product *Domain) (*Domain, error)
-	Update(id int, product *Domain) (*Domain, error)
+	Update(product *Domain, id int) (*Domain, error)
 	FindByID(id int) (*Domain, error)
 }
 
 type Repository interface {
 	Insert(product *Domain) (*Domain, error)
-	Update(id int, product *Domain) (*Domain, error)
+	Update(product *Domain, id int) (*Domain, error)
 	FindByID(id int) (*Domain, error)
 }

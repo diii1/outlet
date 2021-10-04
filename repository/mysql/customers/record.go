@@ -8,27 +8,34 @@ import (
 
 type Customers struct {
 	gorm.Model
+	ID        uint `gorm:"primaryKey"`
 	Name      string
+	Email     string
+	Password  string
 	Alamat    string
 	NoTelepon string
-	Email     string
 }
 
 func toDomain(record Customers) customers.Domain {
 	return customers.Domain{
 		ID:        int(record.ID),
 		Name:      record.Name,
+		Email:     record.Email,
+		Password:  record.Password,
 		Alamat:    record.Alamat,
 		NoTelepon: record.NoTelepon,
-		Email:     record.Email,
+		CreatedAt: record.CreatedAt,
+		UpdatedAt: record.UpdatedAt,
 	}
 }
 
 func fromDomain(domain customers.Domain) Customers {
 	return Customers{
+		ID:        uint(domain.ID),
 		Name:      domain.Name,
+		Email:     domain.Email,
+		Password:  domain.Password,
 		Alamat:    domain.Alamat,
 		NoTelepon: domain.NoTelepon,
-		Email:     domain.Email,
 	}
 }

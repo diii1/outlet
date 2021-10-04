@@ -9,5 +9,9 @@
       "user": "root",
       "pass": "kampusmerdeka",
       "name": "kampusmerdeka"
+    },
+    "jwt": {
+      "secret": "supersecret12345!@#$%",
+      "expired": 2
     }
-}
+  }

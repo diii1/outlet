@@ -1,33 +1,76 @@
 package customers
 
+import (
+	"errors"
+	"outlet/v1/app/middleware/auth"
+	"outlet/v1/helpers"
+)
+
 type serviceCustomers struct {
 	repository Repository
+	jwtAuth    *auth.ConfigJWT
 }
 
-func NewService(repoCustomers Repository) Service {
+func NewService(repositoryCustomer Repository, jwtauth *auth.ConfigJWT) Service {
 	return &serviceCustomers{
-		repository: repoCustomers,
+		repository: repositoryCustomer,
+		jwtAuth:    jwtauth,
 	}
 }
 
-func (s *serviceCustomers) AddCustomer(customers *Domain) (*Domain, error) {
-	result, err := s.repository.Insert(customers)
+func (service *serviceCustomers) AddCustomer(customer *Domain) (*Domain, error) {
+	passHash, err := helpers.PasswordHash(customer.Password)
+	if err != nil {
+		panic(err)
+	}
+	customer.Password = passHash
+	result, err := service.repository.Insert(customer)
 	if err != nil {
 		return &Domain{}, err
 	}
 	return result, nil
 }
-func (s *serviceCustomers) Update(id int, customers *Domain) (*Domain, error) {
-	result, err := s.repository.Update(id, customers)
+
+func (service *serviceCustomers) Update(id int, customer *Domain) (*Domain, error) {
+	passHash, err := helpers.PasswordHash(customer.Password)
+	if err != nil {
+		panic(err)
+	}
+	customer.Password = passHash
+	result, err := service.repository.Update(id, customer)
 	if err != nil {
 		return &Domain{}, err
 	}
 	return result, nil
 }
-func (s *serviceCustomers) FindByID(id int) (*Domain, error) {
-	customers, err := s.repository.FindByID(id)
+
+func (service *serviceCustomers) FindByID(id int) (*Domain, error) {
+	customer, err := service.repository.FindByID(id)
 	if err != nil {
 		return &Domain{}, err
 	}
-	return customers, nil
+	return customer, nil
+}
+
+func (service *serviceCustomers) Login(email string, password string) (string, error) {
+	customer, err := service.repository.FindByEmail(email)
+	if err != nil {
+		return "ID Not Found", errors.New("Customer Not Found")
+	}
+	if customer.ID == 0 {
+		return "ID Not Found", errors.New("Customer Not Found")
+	}
+	if !helpers.ValidateHash(password, customer.Password) {
+		return "Error Validate Hash", errors.New("Error Validate Hash")
+	}
+	token := service.jwtAuth.GenerateToken(customer.ID)
+	return token, nil
+}
+
+func (s *serviceCustomers) DeleteCustomer(id int, customer *Domain) (*Domain, error) {
+	result, err := s.repository.Delete(id, customer)
+	if err != nil {
+		return &Domain{}, err
+	}
+	return result, nil
 }
