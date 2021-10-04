@@ -4,30 +4,32 @@ type serviceProductTypes struct {
 	repository Repository
 }
 
-func NewService(repoProductTypes Repository) Service {
+func NewService(repositoryProductType Repository) Service {
 	return &serviceProductTypes{
-		repository: repoProductTypes,
+		repository: repositoryProductType,
 	}
 }
 
-func (s *serviceProductTypes) AddProductType(productType *Domain) (*Domain, error) {
-	result, err := s.repository.Insert(productType)
+func (service *serviceProductTypes) AddProductType(productType *Domain) (*Domain, error) {
+	result, err := service.repository.Insert(productType)
 	if err != nil {
 		return &Domain{}, err
 	}
 	return result, nil
 }
-func (s *serviceProductTypes) Update(id int, productType *Domain) (*Domain, error) {
-	result, err := s.repository.Update(id, productType)
-	if err != nil {
-		return &Domain{}, err
-	}
-	return result, nil
-}
-func (s *serviceProductTypes) FindByID(id int) (*Domain, error) {
-	productType, err := s.repository.FindByID(id)
+
+func (service *serviceProductTypes) FindByID(id int) (*Domain, error) {
+	productType, err := service.repository.FindByID(id)
 	if err != nil {
 		return &Domain{}, err
 	}
 	return productType, nil
+}
+
+func (s *serviceProductTypes) DeleteProductType(id int, productType *Domain) (*Domain, error) {
+	result, err := s.repository.Delete(id, productType)
+	if err != nil {
+		return &Domain{}, err
+	}
+	return result, nil
 }

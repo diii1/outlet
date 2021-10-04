@@ -1,18 +1,19 @@
 package productTypes
 
 import (
-	producttypes "outlet/v1/bussiness/productTypes"
+	"outlet/v1/bussiness/productTypes"
 
 	"gorm.io/gorm"
 )
 
 type ProductTypes struct {
 	gorm.Model
+	ID   uint `gorm:"primaryKey"`
 	Name string
 }
 
-func toDomain(record ProductTypes) producttypes.Domain {
-	return producttypes.Domain{
+func toDomain(record ProductTypes) productTypes.Domain {
+	return productTypes.Domain{
 		ID:        int(record.ID),
 		Name:      record.Name,
 		CreatedAt: record.CreatedAt,
@@ -20,8 +21,9 @@ func toDomain(record ProductTypes) producttypes.Domain {
 	}
 }
 
-func fromDomain(domain producttypes.Domain) ProductTypes {
+func fromDomain(domain productTypes.Domain) ProductTypes {
 	return ProductTypes{
+		ID:   uint(domain.ID),
 		Name: domain.Name,
 	}
 }

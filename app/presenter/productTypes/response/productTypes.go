@@ -12,6 +12,10 @@ type ProductType struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+type Delete struct {
+	Data string `json:"data"`
+}
+
 func FromDomain(domain productTypes.Domain) ProductType {
 	return ProductType{
 		ID:        domain.ID,
