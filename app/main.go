@@ -6,12 +6,15 @@ import (
 	"outlet/v1/app/middleware/auth"
 	_handlerCustomer "outlet/v1/app/presenter/customers"
 	_handlerProductType "outlet/v1/app/presenter/productTypes"
+	_handlerProduct "outlet/v1/app/presenter/products"
 	"outlet/v1/app/routes"
 	_serviceCustomer "outlet/v1/bussiness/customers"
 	_serviceProductType "outlet/v1/bussiness/productTypes"
+	_serviceProduct "outlet/v1/bussiness/products"
 	mysqlRepo "outlet/v1/repository/mysql"
 	_repositoryCustomer "outlet/v1/repository/mysql/customers"
 	_repositoryProductType "outlet/v1/repository/mysql/productTypes"
+	_repositoryProduct "outlet/v1/repository/mysql/products"
 
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
@@ -59,10 +62,15 @@ func main() {
 	productTypeService := _serviceProductType.NewService(productTypeRepository)
 	productTypeHandler := _handlerProductType.NewHandler(productTypeService)
 
+	productRepository := _repositoryProduct.NewRepositoryMySQL(db)
+	productService := _serviceProduct.NewService(productRepository, productTypeService)
+	productHandler := _handlerProduct.NewHandler(productService)
+
 	routesInit := routes.HandlerList{
 		JWTMiddleware:      configJWT.Init(),
 		HandlerCustomer:    *customerHandler,
 		HandlerProductType: *productTypeHandler,
+		HandlerProduct:     *productHandler,
 	}
 
 	routesInit.RouteRegister(e)

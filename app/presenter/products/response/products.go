@@ -5,9 +5,9 @@ import (
 	"time"
 )
 
-type Product struct {
-	ID          int       `json:"id"`
-	TypeID      int       `json:"typeID"`
+type Products struct {
+	ID int `json:"id"`
+	// TypeID      int       `json:"type_id"`
 	Name        string    `json:"name"`
 	Description string    `json:"description"`
 	Price       int       `json:"price"`
@@ -15,10 +15,14 @@ type Product struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-func FromDomain(domain products.Domain) Product {
-	return Product{
-		ID:          domain.ID,
-		TypeID:      domain.TypeID,
+type Delete struct {
+	Data string `json:"data"`
+}
+
+func FromDomain(domain products.Domain) Products {
+	return Products{
+		ID: domain.ID,
+		// TypeID:      domain.TypeID,
 		Name:        domain.Name,
 		Description: domain.Description,
 		Price:       domain.Price,

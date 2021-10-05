@@ -21,37 +21,31 @@ func (repository repositoryProducts) Insert(product *products.Domain) (*products
 	if err := repository.DB.Create(&recordProduct).Error; err != nil {
 		return &products.Domain{}, err
 	}
-	result, err := repository.FindByID(recordProduct.TypeID)
-	if err != nil {
-		return &products.Domain{}, err
-	}
-	return result, nil
+	result := toDomain(recordProduct)
+	return &result, nil
 }
 
-// func (repository repositoryProducts) Update(id int, product *products.Domain) (*products.Domain, error) {
-// 	recordProduct := fromDomain(*product)
-// 	if err := repository.DB.Where("id = ?", id).Updates(&recordProduct).Error; err != nil {
-// 		return &products.Domain{}, err
-// 	}
-// 	if err := repository.DB.Where("id = ?", id).First(&recordProduct).Error; err != nil {
+// func (repository repositoryProducts) GetProudctTyeID(productTypeID int) (*products.Domain, error) {
+// 	recordProduct := Products{}
+// 	if err := repository.DB.Where("type_id = ?", productTypeID).Joins("ProductTypes").Last(&recordProduct).Error; err != nil {
 // 		return &products.Domain{}, err
 // 	}
 // 	result := toDomain(recordProduct)
 // 	return &result, nil
 // }
 
-func (repository repositoryProducts) Update(product *products.Domain, id int) (*products.Domain, error) {
-	recordProduct := fromDomain(*product)
-	if err := repository.DB.Where("id = ?", id).Updates(&recordProduct).Error; err != nil {
+func (repository repositoryProducts) FindByID(id int) (*products.Domain, error) {
+	recordProduct := Products{}
+	if err := repository.DB.Where("id = ?", id).First(&recordProduct).Error; err != nil {
 		return &products.Domain{}, err
 	}
 	result := toDomain(recordProduct)
 	return &result, nil
 }
 
-func (repository repositoryProducts) FindByID(id int) (*products.Domain, error) {
-	var recordProduct Products
-	if err := repository.DB.Where("id = ?", id).First(&recordProduct).Error; err != nil {
+func (repository repositoryProducts) Delete(id int, product *products.Domain) (*products.Domain, error) {
+	recordProduct := fromDomain(*product)
+	if err := repository.DB.Where("id = ?", id).Delete(&recordProduct).Error; err != nil {
 		return &products.Domain{}, err
 	}
 	result := toDomain(recordProduct)
