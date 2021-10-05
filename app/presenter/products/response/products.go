@@ -6,9 +6,9 @@ import (
 )
 
 type Products struct {
-	ID int `json:"id"`
-	// TypeID      int       `json:"type_id"`
+	ID          int       `json:"id"`
 	Name        string    `json:"name"`
+	TypeID      int       `json:"type_id"`
 	Description string    `json:"description"`
 	Price       int       `json:"price"`
 	CreatedAt   time.Time `json:"created_at"`
@@ -21,9 +21,9 @@ type Delete struct {
 
 func FromDomain(domain products.Domain) Products {
 	return Products{
-		ID: domain.ID,
-		// TypeID:      domain.TypeID,
+		ID:          domain.ID,
 		Name:        domain.Name,
+		TypeID:      domain.TypeID,
 		Description: domain.Description,
 		Price:       domain.Price,
 		CreatedAt:   domain.CreatedAt,

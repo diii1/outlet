@@ -11,16 +11,16 @@ type Products struct {
 	gorm.Model
 	ID           uint `gorm:"primaryKey"`
 	TypeID       int
-	productTypes productTypes.ProductTypes `gorm:"foreignKey:productType_id"`
 	Name         string
 	Description  string
 	Price        int
+	ProductTypes productTypes.ProductTypes `gorm:"foreignKey:type_id"`
 }
 
 func toDomain(record Products) products.Domain {
 	return products.Domain{
 		ID:          int(record.ID),
-		TypeID:      int(record.productTypes.ID),
+		TypeID:      int(record.ProductTypes.ID),
 		Name:        record.Name,
 		Description: record.Description,
 		Price:       record.Price,

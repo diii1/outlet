@@ -2,6 +2,7 @@ package routes
 
 import (
 	"outlet/v1/app/presenter/customers"
+	"outlet/v1/app/presenter/paymentMethods"
 	"outlet/v1/app/presenter/productTypes"
 	"outlet/v1/app/presenter/products"
 
@@ -10,10 +11,11 @@ import (
 )
 
 type HandlerList struct {
-	HandlerCustomer    customers.Presenter
-	HandlerProductType productTypes.Presenter
-	HandlerProduct     products.Presenter
-	JWTMiddleware      middleware.JWTConfig
+	HandlerCustomer      customers.Presenter
+	HandlerProductType   productTypes.Presenter
+	HandlerProduct       products.Presenter
+	HandlerPaymentMethod paymentMethods.Presenter
+	JWTMiddleware        middleware.JWTConfig
 }
 
 func (handler *HandlerList) RouteRegister(e *echo.Echo) {
@@ -29,6 +31,10 @@ func (handler *HandlerList) RouteRegister(e *echo.Echo) {
 	group.DELETE("/productTypes/:id", handler.HandlerProductType.Delete)
 
 	group.POST("/products/add", handler.HandlerProduct.AddProduct)
-	group.GET("/products/:id", handler.HandlerProduct.FindByID)
-	group.DELETE("/products/:id", handler.HandlerProduct.Delete)
+	// group.GET("/products/:id", handler.HandlerProduct.FindByID)
+	// group.DELETE("/products/:id", handler.HandlerProduct.Delete)
+
+	group.POST("/paymentMethods/add", handler.HandlerPaymentMethod.AddPaymentMethod)
+	group.GET("/paymentMethods/:id", handler.HandlerPaymentMethod.FindByID)
+	group.DELETE("/paymentMethods/:id", handler.HandlerPaymentMethod.Delete)
 }
