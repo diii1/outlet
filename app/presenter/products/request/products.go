@@ -9,11 +9,6 @@ type Products struct {
 	Price       int    `json:"price"`
 }
 
-type ProductUpdate struct {
-	Name        string `json:"name"`
-	ProductType string `json:"product_type"`
-}
-
 func ToDomain(request Products) *products.Domain {
 	return &products.Domain{
 		Name:        request.Name,

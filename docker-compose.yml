@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  outlet-online-api:
+    build: .
+    restart: "no"
+    ports:
+      - 8005:8080
+
+  mysql-outlet-online-api:
+    image: mariadb:10.1
+    hostname: mysql.docker
+    command: --init-file /app/app/config/docker/init.sql
+    volumes:
+      - ./init.sql:/app/app/config/docker/init.sql
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_DATABASE: outletonline
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3336:3306
+    restart: "no"

@@ -36,6 +36,7 @@ func fromDomain(domain products.Domain) Products {
 	return Products{
 		ID:          uint(domain.ID),
 		Name:        domain.Name,
+		ProductType: domain.ProductType,
 		TypeID:      domain.TypeID,
 		Description: domain.Description,
 		Price:       domain.Price,
