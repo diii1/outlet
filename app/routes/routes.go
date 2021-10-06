@@ -13,8 +13,8 @@ import (
 type HandlerList struct {
 	HandlerCustomer      customers.Presenter
 	HandlerProductType   productTypes.Presenter
-	HandlerProduct       products.Presenter
 	HandlerPaymentMethod paymentMethods.Presenter
+	HandlerProduct       products.Presenter
 	JWTMiddleware        middleware.JWTConfig
 }
 

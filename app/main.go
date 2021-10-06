@@ -77,8 +77,8 @@ func main() {
 		JWTMiddleware:        configJWT.Init(),
 		HandlerCustomer:      *customerHandler,
 		HandlerProductType:   *productTypeHandler,
-		HandlerProduct:       *productHandler,
 		HandlerPaymentMethod: *paymentMethodHandler,
+		HandlerProduct:       *productHandler,
 	}
 
 	routesInit.RouteRegister(e)

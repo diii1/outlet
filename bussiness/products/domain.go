@@ -25,7 +25,7 @@ type Repository interface {
 	Insert(product *Domain) (*Domain, error)
 	// Update(id int, user *Domain) (*Domain, error)
 	// GetProductTypeID(productTypeID int) (*Domain, error)
-	// FindByID(id int) (*Domain, error)
+	FindByID(id int) (*Domain, error)
 	// FindByEmail(email string) (*Domain, error)
 	// Delete(id int, product *Domain) (*Domain, error)
 }

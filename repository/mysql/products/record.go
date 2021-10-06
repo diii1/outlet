@@ -1,6 +1,7 @@
 package products
 
 import (
+	"fmt"
 	"outlet/v1/bussiness/products"
 	"outlet/v1/repository/mysql/productTypes"
 
@@ -12,28 +13,30 @@ type Products struct {
 	ID           uint `gorm:"primaryKey"`
 	TypeID       int
 	Name         string
+	ProductType  string
 	Description  string
 	Price        int
 	ProductTypes productTypes.ProductTypes `gorm:"foreignKey:type_id"`
 }
 
-func toDomain(record Products) products.Domain {
+func toDomain(rec Products) products.Domain {
+	fmt.Printf("%+v", rec)
 	return products.Domain{
-		ID:          int(record.ID),
-		TypeID:      int(record.ProductTypes.ID),
-		Name:        record.Name,
-		Description: record.Description,
-		Price:       record.Price,
-		CreatedAt:   record.CreatedAt,
-		UpdatedAt:   record.UpdatedAt,
+		ID:          int(rec.ID),
+		Name:        rec.Name,
+		ProductType: rec.ProductTypes.Name,
+		Description: rec.Description,
+		Price:       rec.Price,
+		CreatedAt:   rec.CreatedAt,
+		UpdatedAt:   rec.UpdatedAt,
 	}
 }
 
 func fromDomain(domain products.Domain) Products {
 	return Products{
 		ID:          uint(domain.ID),
-		TypeID:      domain.TypeID,
 		Name:        domain.Name,
+		TypeID:      domain.TypeID,
 		Description: domain.Description,
 		Price:       domain.Price,
 	}
