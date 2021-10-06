@@ -24,3 +24,11 @@ func FromDomain(domain paymentMethods.Domain) PaymentMethod {
 		UpdatedAt: domain.UpdatedAt,
 	}
 }
+
+func FromDomainArray(domain []paymentMethods.Domain) []PaymentMethod {
+	var res []PaymentMethod
+	for _, v := range domain {
+		res = append(res, FromDomain(v))
+	}
+	return res
+}

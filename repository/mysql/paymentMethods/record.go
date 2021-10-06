@@ -27,3 +27,11 @@ func fromDomain(domain paymentMethods.Domain) PaymentMethods {
 		Name: domain.Name,
 	}
 }
+
+func toDomainArray(record []PaymentMethods) []paymentMethods.Domain {
+	var res []paymentMethods.Domain
+	for _, v := range record {
+		res = append(res, toDomain(v))
+	}
+	return res
+}

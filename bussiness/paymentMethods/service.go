@@ -33,3 +33,11 @@ func (service *servicePaymentMethod) DeletePaymentMethod(id int, paymentMethod *
 	}
 	return result, nil
 }
+
+func (service *servicePaymentMethod) GetAllPaymentMethod() (*[]Domain, error) {
+	result, err := service.repository.GetAllPaymentMethod()
+	if err != nil {
+		return &[]Domain{}, err
+	}
+	return result, nil
+}

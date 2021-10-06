@@ -22,6 +22,8 @@ type HandlerList struct {
 
 func (handler *HandlerList) RouteRegister(e *echo.Echo) {
 	group := e.Group("/api/v1")
+
+	// Route for Customer Endpoint
 	group.GET("/customers", handler.HandlerCustomer.GetAllCustomer)
 	group.POST("/customers/add", handler.HandlerCustomer.AddCustomer)
 	group.POST("/customers/login", handler.HandlerCustomer.LoginUser)
@@ -29,19 +31,24 @@ func (handler *HandlerList) RouteRegister(e *echo.Echo) {
 	group.GET("/customers/:id", handler.HandlerCustomer.FindByID)
 	group.DELETE("/customers/:id", handler.HandlerCustomer.Delete)
 
+	// Route for Product Type Endpoint
 	group.POST("/productTypes/add", handler.HandlerProductType.AddProductType)
 	group.GET("/productTypes/:id", handler.HandlerProductType.FindByID)
 	group.DELETE("/productTypes/:id", handler.HandlerProductType.Delete)
 
+	// Route for Product Endpoint
 	group.POST("/products/add", handler.HandlerProduct.AddProduct)
 	group.PUT("/products/update/:id", handler.HandlerProduct.Update)
 	group.GET("/products/:id", handler.HandlerProduct.FindByID)
 	group.DELETE("/products/:id", handler.HandlerProduct.DeleteProduct)
 
+	// Route for Payment Method Endpoint
+	group.GET("/paymentMethods", handler.HandlerPaymentMethod.GetAllPaymentMethod)
 	group.POST("/paymentMethods/add", handler.HandlerPaymentMethod.AddPaymentMethod)
 	group.GET("/paymentMethods/:id", handler.HandlerPaymentMethod.FindByID)
 	group.DELETE("/paymentMethods/:id", handler.HandlerPaymentMethod.DeletePaymentMethod)
 
+	// Route for Order Endpoint
 	group.GET("/orders", handler.HandlerOrder.GetAllOrder)
 	group.POST("/orders/add", handler.HandlerOrder.AddOrder)
 	group.GET("/orders/:id", handler.HandlerOrder.FindByID)

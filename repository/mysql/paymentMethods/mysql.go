@@ -42,3 +42,12 @@ func (repository repositoryPaymentMethod) Delete(id int, paymentMethod *paymentM
 	result := toDomain(recordPaymentMethod)
 	return &result, nil
 }
+
+func (repository repositoryPaymentMethod) GetAllPaymentMethod() (*[]paymentMethods.Domain, error) {
+	var recordPaymentMethod []PaymentMethods
+	if err := repository.DB.Find(&recordPaymentMethod).Error; err != nil {
+		return &[]paymentMethods.Domain{}, err
+	}
+	result := toDomainArray(recordPaymentMethod)
+	return &result, nil
+}
