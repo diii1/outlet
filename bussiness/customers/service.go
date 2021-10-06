@@ -55,13 +55,13 @@ func (service *serviceCustomers) FindByID(id int) (*Domain, error) {
 func (service *serviceCustomers) Login(email string, password string) (string, error) {
 	customer, err := service.repository.FindByEmail(email)
 	if err != nil {
-		return "ID Not Found", errors.New("Customer Not Found")
+		return "ID Not Found", errors.New("customer not found")
 	}
 	if customer.ID == 0 {
-		return "ID Not Found", errors.New("Customer Not Found")
+		return "ID Not Found", errors.New("customer not found")
 	}
 	if !helpers.ValidateHash(password, customer.Password) {
-		return "Error Validate Hash", errors.New("Error Validate Hash")
+		return "Error Validate Hash", errors.New("error validate hash")
 	}
 	token := service.jwtAuth.GenerateToken(customer.ID)
 	return token, nil

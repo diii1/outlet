@@ -27,7 +27,7 @@ import (
 )
 
 func init() {
-	viper.SetConfigName("test-config")
+	viper.SetConfigName("docker-config")
 	viper.AddConfigPath("./config/docker")
 	viper.AutomaticEnv()
 	viper.SetConfigType("json")
