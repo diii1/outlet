@@ -31,7 +31,7 @@ func (handler *HandlerList) RouteRegister(e *echo.Echo) {
 	group.DELETE("/productTypes/:id", handler.HandlerProductType.Delete)
 
 	group.POST("/products/add", handler.HandlerProduct.AddProduct)
-	// group.GET("/products/:id", handler.HandlerProduct.FindByID)
+	group.GET("/products/:id", handler.HandlerProduct.FindByID)
 	// group.DELETE("/products/:id", handler.HandlerProduct.Delete)
 
 	group.POST("/paymentMethods/add", handler.HandlerPaymentMethod.AddPaymentMethod)

@@ -16,7 +16,7 @@ type Domain struct {
 type Service interface {
 	AddProduct(product *Domain) (*Domain, error)
 	// Update(id int, user *Domain) (*Domain, error)
-	// FindByID(id int) (*Domain, error)
+	FindByID(id int) (*Domain, error)
 	// Login(email string, password string) (string, error)
 	// DeleteProduct(id int, product *Domain) (*Domain, error)
 }

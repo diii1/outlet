@@ -26,3 +26,11 @@ func (servProduct *serviceProducts) AddProduct(product *Domain) (*Domain, error)
 	}
 	return result, nil
 }
+
+func (service *serviceProducts) FindByID(id int) (*Domain, error) {
+	product, err := service.repository.FindByID(id)
+	if err != nil {
+		return &Domain{}, err
+	}
+	return product, nil
+}
