@@ -54,3 +54,18 @@ func (service *serviceOrder) FindByID(id int) (*Domain, error) {
 	}
 	return order, nil
 }
+func (service *serviceOrder) DeleteOrder(id int, order *Domain) (*Domain, error) {
+	result, err := service.repository.Delete(id, order)
+	if err != nil {
+		return &Domain{}, err
+	}
+	return result, nil
+}
+
+func (service *serviceOrder) GetAllOrder() (*[]Domain, error) {
+	result, err := service.repository.GetAllOrder()
+	if err != nil {
+		return &[]Domain{}, err
+	}
+	return result, nil
+}

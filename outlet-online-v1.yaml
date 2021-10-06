@@ -1,0 +1,763 @@
+openapi: 3.0.0 
+info: 
+  description: |
+     Note Easily with Outlet Online
+  version: "1.0.0"
+  title:  Outlet Online
+servers:
+  - url: 'https://localhost:8080/'
+tags:
+  - name: Customer
+    description: Customer Resource
+  - name: Product
+    description: Product Resource
+  - name: Product Type
+    description: Product Type Resource
+  - name: Payment Method
+    description: Payment Method Resource
+  - name: Order
+    description: Order Resource
+paths:
+  /customers:
+    get:
+      tags:
+        - Customer
+      summary: Get all Customer
+      operationId: getCustomer
+      responses:
+        '200':
+          description: Successfull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer_List'
+  /customers/add:
+    post:
+      tags:
+        - Customer
+      summary: Add a new Customer
+      operationId: addCustomer
+      responses:
+        '405':
+          description: Invalid input
+        '200':
+          description: Success Add Customer  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqCustomer'
+        required: true
+  /customers/login:
+    post:
+      tags:
+        - Customer
+      summary: Login customer
+      operationId: loginCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqLogin'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            Bearer-Token:
+              description: JWT Auth
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+        '400':
+          description: Invalid email/password supplied
+  /customers/update:
+    put:
+      tags:
+        - Customer
+      summary: Update a new Customer
+      operationId: updateCustomer
+      responses:
+        '405':
+          description: Invalid Input
+        '200':
+          description: Success Update  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqCustomer'
+        required: true
+  '/customers/{id}':
+    get:
+      tags:
+        - Customer
+      summary: Find Customer by Id
+      description: Returns a single Customer
+      operationId: findCustomer
+      parameters:
+        - name: id
+          in: path
+          description: ID of Customer to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfull find Customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Customer not found
+    delete:
+      tags:
+        - Customer
+      summary: Delete Customer
+      description: This can only be done by the logged in user.
+      operationId: deleteCustomer
+      parameters:
+        - name: id
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Delete Success
+        '400':
+          description: Invalid Id
+        '404':
+          description: Customer not found
+  /products:
+    get:
+      tags:
+        - Product
+      summary: Get all Product
+      operationId: getProduct
+      responses:
+        '200':
+          description: Successfull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product_List'
+  /products/add:
+    post:
+      tags:
+        - Product
+      summary: Add a new Product
+      operationId: addProduct
+      responses:
+        '405':
+          description: Invalid input
+        '200':
+          description: Success Add Product  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqProduct'
+        required: true
+  /products/update:
+    put:
+      tags:
+        - Product
+      summary: Update a new Product
+      operationId: updateProduct
+      responses:
+        '405':
+          description: Invalid Input
+        '200':
+          description: Success Update
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqProduct'
+        required: true
+  '/products/{id}':
+    get:
+      tags:
+        - Product
+      summary: Find Product by Id
+      description: Returns a single Product
+      operationId: findProduct
+      parameters:
+        - name: id
+          in: path
+          description: ID of Product to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfull find Product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Product not found
+    delete:
+      tags:
+        - Product
+      summary: Delete Product
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Delete Success
+        '400':
+          description: Invalid Id
+        '404':
+          description: Customer not found
+  /paymentMethods:
+    get:
+      tags:
+        - Payment Method
+      summary: Get all Payment Method
+      operationId: getPaymentMethod
+      responses:
+        '200':
+          description: Successfull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentMethod_List'
+  /paymentMethods/add:
+    post:
+      tags:
+        - Payment Method
+      summary: Add a new Payment Method
+      operationId: addPaymentMethod
+      responses:
+        '405':
+          description: Invalid input
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqPaymentMethod'
+        required: true
+  '/paymentMethods/{id}':
+    get:
+      tags:
+        - Payment Method
+      summary: Find Payment Method by Id
+      description: Returns a single Payment Method
+      operationId: findPaymentMethod
+      parameters:
+        - name: id
+          in: path
+          description: ID of Payment Method to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find Payment Method
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentMethod'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Payment Method not found
+    delete:
+      tags:
+        - Payment Method
+      summary: Delete Payment Method
+      operationId: deletePaymentMethod
+      parameters:
+        - name: id
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Delete Success
+        '400':
+          description: Invalid Id
+        '404':
+          description: Payment Method not found
+  /productTypes:
+    get:
+      tags:
+        - Product Type
+      summary: Get all Product Type
+      operationId: getProductType
+      responses:
+        '200':
+          description: Successfull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductType_List'
+  /productTypes/add:
+    post:
+      tags:
+        - Product Type
+      summary: Add a new Product Type
+      operationId: addProductType
+      responses:
+        '405':
+          description: Invalid input
+        '200':
+          description: Success Add Product Type  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductType'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqPaymentMethod'
+        required: true
+  '/productTypes/{id}':
+    get:
+      tags:
+        - Product Type
+      summary: Find Product Type by Id
+      description: Returns a single Product Type
+      operationId: findProductType
+      parameters:
+        - name: id
+          in: path
+          description: ID of Product Type Method to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfull find Product Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductType'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Payment Method not found
+    delete:
+      tags:
+        - Product Type
+      summary: Delete Product Type
+      operationId: deleteProductType
+      parameters:
+        - name: id
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Delete Success
+        '400':
+          description: Invalid Id
+        '404':
+          description: Payment Method not found
+  /orders:
+    get:
+      tags:
+        - Order
+      summary: Get all Order
+      operationId: getOrder
+      responses:
+        '200':
+          description: Successfull
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order_List'
+  /orders/add:
+    post:
+      tags:
+        - Order
+      summary: Add a new Order
+      operationId: addOrder
+      responses:
+        '405':
+          description: Invalid input
+        '200':
+          description: Success Add Order  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqOrder'
+        required: true
+  '/orders/{id}':
+    get:
+      tags:
+        - Order
+      summary: Find Order by Id
+      description: Returns a single Order
+      operationId: findOrder
+      parameters:
+        - name: id
+          in: path
+          description: ID of Order Method to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfull find Order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Payment Method not found
+    delete:
+      tags:
+        - Order
+      summary: Delete Order
+      operationId: deleteOrder
+      parameters:
+        - name: id
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Delete Success
+        '400':
+          description: Invalid Id
+        '404':
+          description: Payment Method not found
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+components:
+  schemas:
+    Customer:
+      properties:
+        id:
+          type: integer
+          format: uuid
+          example: 3
+        name:
+          type: string
+          example: bayu
+        email:
+          type: string
+          example: bayu@example.com
+        alamat:
+          type: string
+          example: buduran sidoarjo
+        noTelepon:
+          type: string
+          example: '0812712712'
+        created_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'
+        updated_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'
+    ReqCustomer:
+      properties:
+        name:
+          type: string
+          example: bayu
+        email:
+          type: string
+          example: bayu@example.com
+        alamat:
+          type: string
+          example: buduran sidoarjo
+        password:
+          type: string
+          example: secret
+        noTelepon:
+          type: string
+          example: '0812712712'
+    Login:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: uuid
+          example: 1
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZXhwIjoxNjMzNTQ2OTc5fQ.0-sn_Ukhlf6CO5vGys1XmlEklTtZ57jZG3mkrWBoyeI
+    ReqLogin:
+      type: object
+      properties:
+        email:
+          type: string
+          example: bayu@example.com
+        password:
+          type: string
+          example: secret
+    Customer_List:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/Customer"
+      example:
+        - id: 1
+          name: Bayu
+          email: bayu@example.com
+          alamat: bduduran sidoarjo
+          noTelepon: '0812712712'
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'
+        - id: 2
+          name: Firman
+          email: firman@example.com
+          alamat: sidoarjo
+          noTelepon: '0812712712'
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'
+    Product:
+      properties:
+        id:
+          type: integer
+          format: uuid
+          example: 3
+        name:
+          type: string
+          example: Charger Redmi Note 7 ORI
+        description:
+          type: string
+          example: Kabel Charger + Kepala Redmi Note 7
+        product_type:
+          type: string
+          example: Charger Type - C
+        price:
+          type: integer
+          example: 200000
+        created_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'
+        updated_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'
+    ReqProduct:
+      properties:
+        name:
+          type: string
+          example: Charger Redmi Note 7 ORI
+        description:
+          type: string
+          example: Kabel Charger + Kepala Redmi Note 7
+        type_id:
+          type: integer
+          example: 2
+        price:
+          type: integer
+          example: 200000
+    Product_List:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/Product"
+      example:
+        - id: 1
+          name: Charger Redmi Note 7 ORI
+          description: Kabel Charger + Kepala Redmi Note 7
+          product_type: Charger Type - C
+          price: 200000
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'
+        - id: 2
+          name: Charger Redmi Note 10 ORI
+          description: Kabel Charger + Kepala Redmi Note 10
+          product_type: Charger Type - C
+          price: 250000
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'
+    ProductType:
+      properties:
+        id:
+          type: integer
+          format: uuid
+          example: 3
+        name:
+          type: string
+          example: Baterai Li - Ion
+        created_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'
+        updated_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'      
+    ProductType_List:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/ProductType"
+      example:
+        - id: 1
+          name: Charger Type - C
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'
+        - id: 2
+          name: Baterai Li - Ion
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'
+    PaymentMethod:
+      properties:
+        id:
+          type: integer
+          format: uuid
+          example: 3
+        name:
+          type: string
+          example: Dana
+        created_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'
+        updated_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'
+    ReqPaymentMethod:
+      properties:
+        name:
+          type: string
+          example: Dana
+    PaymentMethod_List:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/PaymentMethod"
+      example:
+        - id: 1
+          name: Dana
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'
+        - id: 2
+          name: Ovo
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'
+    Order:
+      properties:
+        id:
+          type: integer
+          format: uuid
+          example: 3
+        product:
+          type: string
+          example: Charger Redmi Note 7 ORI
+        payment_method:
+          type: string
+          example: Dana
+        customer:
+          type: string
+          example: Firman
+        totalPrice:
+          type: integer
+          example: 125000
+        status:
+          type: string
+          example: Delivered
+        created_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'
+        updated_at:
+          type: string
+          format: timestamp
+          example: '2021-10-06T01:24:31.41+07:00'
+    ReqOrder:
+      properties:
+        product_id:
+          type: integer
+          example: 2
+        payment_id:
+          type: integer
+          example: 1
+        customer_id:
+          type: integer
+          example: 1
+    Order_List:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/Order"
+      example:
+        - id: 1
+          product: Charger Redmi Note 7 ORI
+          payment_method: Dana
+          customer: Firman
+          totalPrice: 125000
+          status: Delivered
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'
+        - id: 2
+          product: Charger Redmi Note 10 ORI
+          payment_method: Ovo
+          customer: Bayu
+          totalPrice: 125000
+          status: Delivered
+          created_at: '2021-10-07T00:46:57.388+07:00'
+          updated_at: '2021-10-07T00:46:57.388+07:00'      
+  securitySchemes:
+    outlet_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: 'http://petstore.swagger.io/oauth/dialog'
+          scopes:
+            'write:outlet': modify outlet in your account
+            'read:outlet': read your outlet
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

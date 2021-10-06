@@ -16,6 +16,7 @@ type Customer struct {
 }
 
 type CustomerLogin struct {
+	ID    int    `json:"id"`
 	Token string `json:"token"`
 }
 
@@ -33,4 +34,12 @@ func FromDomain(domain customers.Domain) Customer {
 		CreatedAt: domain.CreatedAt,
 		UpdatedAt: domain.UpdatedAt,
 	}
+}
+
+func FromDomainArray(domain []customers.Domain) []Customer {
+	var res []Customer
+	for _, v := range domain {
+		res = append(res, FromDomain(v))
+	}
+	return res
 }

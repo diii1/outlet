@@ -20,6 +20,7 @@ type Service interface {
 	FindByID(id int) (*Domain, error)
 	Login(email string, password string) (string, error)
 	DeleteCustomer(id int, customer *Domain) (*Domain, error)
+	GetAllCustomer() (*[]Domain, error)
 }
 
 type Repository interface {
@@ -28,4 +29,5 @@ type Repository interface {
 	FindByID(id int) (*Domain, error)
 	FindByEmail(email string) (*Domain, error)
 	Delete(id int, customer *Domain) (*Domain, error)
+	GetAllCustomer() (*[]Domain, error)
 }

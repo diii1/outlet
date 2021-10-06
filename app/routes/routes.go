@@ -22,6 +22,7 @@ type HandlerList struct {
 
 func (handler *HandlerList) RouteRegister(e *echo.Echo) {
 	group := e.Group("/api/v1")
+	group.GET("/customers", handler.HandlerCustomer.GetAllCustomer)
 	group.POST("/customers/add", handler.HandlerCustomer.AddCustomer)
 	group.POST("/customers/login", handler.HandlerCustomer.LoginUser)
 	group.PUT("/customers/update", handler.HandlerCustomer.Update, middleware.JWTWithConfig(handler.JWTMiddleware))
@@ -39,8 +40,10 @@ func (handler *HandlerList) RouteRegister(e *echo.Echo) {
 
 	group.POST("/paymentMethods/add", handler.HandlerPaymentMethod.AddPaymentMethod)
 	group.GET("/paymentMethods/:id", handler.HandlerPaymentMethod.FindByID)
-	group.DELETE("/paymentMethods/:id", handler.HandlerPaymentMethod.Delete)
+	group.DELETE("/paymentMethods/:id", handler.HandlerPaymentMethod.DeletePaymentMethod)
 
+	group.GET("/orders", handler.HandlerOrder.GetAllOrder)
 	group.POST("/orders/add", handler.HandlerOrder.AddOrder)
 	group.GET("/orders/:id", handler.HandlerOrder.FindByID)
+	group.DELETE("/orders/:id", handler.HandlerOrder.DeleteOrder)
 }

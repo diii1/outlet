@@ -28,7 +28,7 @@ import (
 
 func init() {
 	viper.SetConfigName("test-config")
-	viper.AddConfigPath("./config/")
+	viper.AddConfigPath("./config/docker")
 	viper.AutomaticEnv()
 	viper.SetConfigType("json")
 	err := viper.ReadInConfig()

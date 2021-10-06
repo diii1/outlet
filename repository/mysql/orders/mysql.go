@@ -36,3 +36,21 @@ func (repository *repositoryOrders) FindByID(id int) (*orders.Domain, error) {
 	result := toDomain(recordOrder)
 	return &result, nil
 }
+
+func (repository repositoryOrders) Delete(id int, order *orders.Domain) (*orders.Domain, error) {
+	recordOrder := fromDomain(*order)
+	if err := repository.DB.Where("id = ?", id).Delete(&recordOrder).Error; err != nil {
+		return &orders.Domain{}, err
+	}
+	result := toDomain(recordOrder)
+	return &result, nil
+}
+
+func (repository repositoryOrders) GetAllOrder() (*[]orders.Domain, error) {
+	var recordOrder []Orders
+	if err := repository.DB.Joins("Products").Joins("PaymentMethods").Joins("Customers").Find(&recordOrder).Error; err != nil {
+		return &[]orders.Domain{}, err
+	}
+	result := toDomainArray(recordOrder)
+	return &result, nil
+}

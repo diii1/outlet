@@ -53,3 +53,11 @@ func fromDomain(domain orders.Domain) Orders {
 		Status:     domain.Status,
 	}
 }
+
+func toDomainArray(record []Orders) []orders.Domain {
+	var res []orders.Domain
+	for _, v := range record {
+		res = append(res, toDomain(v))
+	}
+	return res
+}

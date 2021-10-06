@@ -63,3 +63,12 @@ func (repository repositoryCustomer) Delete(id int, customer *customers.Domain) 
 	result := toDomain(recordCustomer)
 	return &result, nil
 }
+
+func (repository repositoryCustomer) GetAllCustomer() (*[]customers.Domain, error) {
+	var recordCustomer []Customers
+	if err := repository.DB.Find(&recordCustomer).Error; err != nil {
+		return &[]customers.Domain{}, err
+	}
+	result := toDomainArray(recordCustomer)
+	return &result, nil
+}

@@ -47,3 +47,34 @@ func (handler *Presenter) FindByID(echoContext echo.Context) error {
 	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.FromDomain(*resp))
 	return echoContext.JSON(http.StatusOK, response)
 }
+
+func (handler *Presenter) DeleteOrder(echoContext echo.Context) error {
+	var req _request.Orders
+	if err := echoContext.Bind(&req); err != nil {
+		response := helpers.APIResponse("Failed Delete Order", http.StatusBadRequest, "Error", err)
+		return echoContext.JSON(http.StatusBadRequest, response)
+	}
+	id, err := strconv.Atoi(echoContext.Param("id"))
+	if err != nil {
+		response := helpers.APIResponse("Failed Delete Order", http.StatusBadRequest, "Error", err)
+		return echoContext.JSON(http.StatusBadRequest, response)
+	}
+	domain := _request.ToDomain(req)
+	_, err = handler.serviceOrder.DeleteOrder(id, domain)
+	if err != nil {
+		response := helpers.APIResponse("Failed Delete Order", http.StatusBadRequest, "Error", err)
+		return echoContext.JSON(http.StatusBadRequest, response)
+	}
+	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.Delete{Data: "Success Delete Order"})
+	return echoContext.JSON(http.StatusOK, response)
+}
+
+func (handler *Presenter) GetAllOrder(echoContext echo.Context) error {
+	resp, err := handler.serviceOrder.GetAllOrder()
+	if err != nil {
+		response := helpers.APIResponse("Failed Get All Order", http.StatusBadRequest, "Error", err)
+		return echoContext.JSON(http.StatusBadRequest, response)
+	}
+	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.FromDomainArray(*resp))
+	return echoContext.JSON(http.StatusOK, response)
+}

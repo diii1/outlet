@@ -74,3 +74,11 @@ func (service *serviceCustomers) DeleteCustomer(id int, customer *Domain) (*Doma
 	}
 	return result, nil
 }
+
+func (service *serviceCustomers) GetAllCustomer() (*[]Domain, error) {
+	result, err := service.repository.GetAllCustomer()
+	if err != nil {
+		return &[]Domain{}, err
+	}
+	return result, nil
+}

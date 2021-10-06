@@ -16,6 +16,10 @@ type Orders struct {
 	UpdatedAt  time.Time `json:"updated_at"`
 }
 
+type Delete struct {
+	Data string `json:"data"`
+}
+
 func FromDomain(domain orders.Domain) Orders {
 	return Orders{
 		ID:         domain.ID,
@@ -27,4 +31,12 @@ func FromDomain(domain orders.Domain) Orders {
 		CreatedAt:  domain.CreatedAt,
 		UpdatedAt:  domain.UpdatedAt,
 	}
+}
+
+func FromDomainArray(domain []orders.Domain) []Orders {
+	var res []Orders
+	for _, v := range domain {
+		res = append(res, FromDomain(v))
+	}
+	return res
 }

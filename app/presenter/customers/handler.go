@@ -112,3 +112,13 @@ func (handler *Presenter) Delete(echoContext echo.Context) error {
 	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.Delete{Data: "Success Delete Customer"})
 	return echoContext.JSON(http.StatusOK, response)
 }
+
+func (handler *Presenter) GetAllCustomer(echoContext echo.Context) error {
+	resp, err := handler.serviceCustomer.GetAllCustomer()
+	if err != nil {
+		response := helpers.APIResponse("Failed Get All Customer", http.StatusBadRequest, "Error", err)
+		return echoContext.JSON(http.StatusBadRequest, response)
+	}
+	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.FromDomainArray(*resp))
+	return echoContext.JSON(http.StatusOK, response)
+}

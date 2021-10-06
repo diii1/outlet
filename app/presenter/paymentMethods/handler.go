@@ -48,7 +48,7 @@ func (handler *Presenter) FindByID(echoContext echo.Context) error {
 	return echoContext.JSON(http.StatusOK, response)
 }
 
-func (handler *Presenter) Delete(echoContext echo.Context) error {
+func (handler *Presenter) DeletePaymentMethod(echoContext echo.Context) error {
 	var req _request.PaymentMethod
 	if err := echoContext.Bind(&req); err != nil {
 		response := helpers.APIResponse("Failed Delete Payment Method", http.StatusBadRequest, "Error", err)
