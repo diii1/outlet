@@ -33,3 +33,11 @@ func (service *serviceProductTypes) DeleteProductType(id int, productType *Domai
 	}
 	return result, nil
 }
+
+func (service *serviceProductTypes) GetAllProductType() (*[]Domain, error) {
+	result, err := service.repository.GetAllProductType()
+	if err != nil {
+		return &[]Domain{}, err
+	}
+	return result, nil
+}

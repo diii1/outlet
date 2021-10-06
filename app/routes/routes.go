@@ -32,6 +32,7 @@ func (handler *HandlerList) RouteRegister(e *echo.Echo) {
 	group.DELETE("/customers/:id", handler.HandlerCustomer.Delete)
 
 	// Route for Product Type Endpoint
+	group.GET("/productTypes", handler.HandlerProductType.GetAllProductType)
 	group.POST("/productTypes/add", handler.HandlerProductType.AddProductType)
 	group.GET("/productTypes/:id", handler.HandlerProductType.FindByID)
 	group.DELETE("/productTypes/:id", handler.HandlerProductType.Delete)

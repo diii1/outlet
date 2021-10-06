@@ -24,3 +24,11 @@ func FromDomain(domain productTypes.Domain) ProductType {
 		UpdatedAt: domain.UpdatedAt,
 	}
 }
+
+func FromDomainArray(domain []productTypes.Domain) []ProductType {
+	var res []ProductType
+	for _, v := range domain {
+		res = append(res, FromDomain(v))
+	}
+	return res
+}

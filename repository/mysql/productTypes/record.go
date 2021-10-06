@@ -27,3 +27,11 @@ func fromDomain(domain productTypes.Domain) ProductTypes {
 		Name: domain.Name,
 	}
 }
+
+func toDomainArray(record []ProductTypes) []productTypes.Domain {
+	var res []productTypes.Domain
+	for _, v := range record {
+		res = append(res, toDomain(v))
+	}
+	return res
+}

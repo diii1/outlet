@@ -68,3 +68,13 @@ func (handler *Presenter) Delete(echoContext echo.Context) error {
 	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.Delete{Data: "Success Delete Product Type"})
 	return echoContext.JSON(http.StatusOK, response)
 }
+
+func (handler *Presenter) GetAllProductType(echoContext echo.Context) error {
+	resp, err := handler.serviceProductType.GetAllProductType()
+	if err != nil {
+		response := helpers.APIResponse("Failed Get All Product Type", http.StatusBadRequest, "Error", err)
+		return echoContext.JSON(http.StatusBadRequest, response)
+	}
+	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.FromDomainArray(*resp))
+	return echoContext.JSON(http.StatusOK, response)
+}

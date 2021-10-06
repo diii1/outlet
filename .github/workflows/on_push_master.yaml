@@ -1,0 +1,42 @@
+name: on-push-main
+
+on:
+    pull_request:
+        branches:
+            - "main"
+    push:
+        branches:
+            - "main"
+            - "dev-*"
+            - "develop-*"
+
+jobs:
+    api-test:
+        name: api test - run unitest on action
+        runs-on: ubuntu-latest
+        container: golang:1.17
+        services:
+            mysql:
+                image: mariadb:10.1
+                env:
+                    MYSQL_ROOT_PASSWORD: password
+                ports:
+                    - 3306:3306
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        strategy:
+            matrix:
+                go: ["1.17"]
+        steps:
+            - name: "Git Checkout"
+              uses: actions/checkout@v2
+            - name: create database
+              run: |
+                  apt-get update
+                  apt-get install -y mariadb-client
+                  mysql --host mysql -uroot -ppassword -e "CREATE DATABASE IF NOT EXISTS gameprice"
+            - name: running unitest
+              run: |
+                  echo "${{ secrets.ENV }}" > ./app/config/docker/test-config.json
+                  # mv ./app/config/example-config.json ./app/config/docker/test-config.json
+                  go mod tidy
+                  go test ./... -cover -failfast
