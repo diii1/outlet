@@ -90,3 +90,13 @@ func (handler *Presenter) DeleteProduct(echoContext echo.Context) error {
 	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.Delete{Data: "Success Delete Product"})
 	return echoContext.JSON(http.StatusOK, response)
 }
+
+func (handler *Presenter) GetAllProduct(echoContext echo.Context) error {
+	resp, err := handler.serviceProduct.GetAllProduct()
+	if err != nil {
+		response := helpers.APIResponse("Failed Get All Product", http.StatusBadRequest, "Error", err)
+		return echoContext.JSON(http.StatusBadRequest, response)
+	}
+	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.FromDomainArray(*resp))
+	return echoContext.JSON(http.StatusOK, response)
+}

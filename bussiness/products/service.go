@@ -55,3 +55,11 @@ func (service *serviceProducts) DeleteProduct(id int, product *Domain) (*Domain,
 	}
 	return result, nil
 }
+
+func (service *serviceProducts) GetAllProduct() (*[]Domain, error) {
+	result, err := service.repository.GetAllProduct()
+	if err != nil {
+		return &[]Domain{}, err
+	}
+	return result, nil
+}

@@ -18,6 +18,7 @@ type Service interface {
 	FindByID(id int) (*Domain, error)
 	Update(id int, user *Domain) (*Domain, error)
 	DeleteProduct(id int, product *Domain) (*Domain, error)
+	GetAllProduct() (*[]Domain, error)
 }
 
 type Repository interface {
@@ -25,4 +26,5 @@ type Repository interface {
 	FindByID(id int) (*Domain, error)
 	Update(id int, user *Domain) (*Domain, error)
 	Delete(id int, product *Domain) (*Domain, error)
+	GetAllProduct() (*[]Domain, error)
 }

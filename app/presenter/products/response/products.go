@@ -30,3 +30,11 @@ func FromDomain(domain products.Domain) Products {
 		UpdatedAt:   domain.UpdatedAt,
 	}
 }
+
+func FromDomainArray(domain []products.Domain) []Products {
+	var res []Products
+	for _, v := range domain {
+		res = append(res, FromDomain(v))
+	}
+	return res
+}

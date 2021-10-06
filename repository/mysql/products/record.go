@@ -42,3 +42,11 @@ func fromDomain(domain products.Domain) Products {
 		Price:       domain.Price,
 	}
 }
+
+func toDomainArray(record []Products) []products.Domain {
+	var res []products.Domain
+	for _, v := range record {
+		res = append(res, toDomain(v))
+	}
+	return res
+}

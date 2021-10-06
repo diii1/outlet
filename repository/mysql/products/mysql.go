@@ -54,3 +54,12 @@ func (repository repositoryProducts) Delete(id int, product *products.Domain) (*
 	result := toDomain(recordProduct)
 	return &result, nil
 }
+
+func (repository repositoryProducts) GetAllProduct() (*[]products.Domain, error) {
+	var recordProduct []Products
+	if err := repository.DB.Joins("ProductTypes").Find(&recordProduct).Error; err != nil {
+		return &[]products.Domain{}, err
+	}
+	result := toDomainArray(recordProduct)
+	return &result, nil
+}
