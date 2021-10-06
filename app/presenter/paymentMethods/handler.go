@@ -66,5 +66,5 @@ func (handler *Presenter) Delete(echoContext echo.Context) error {
 		return echoContext.JSON(http.StatusBadRequest, response)
 	}
 	response := helpers.APIResponse("Success", http.StatusOK, "Success", _response.Delete{Data: "Success Delete Payment Method"})
-	return echoContext.JSON(http.StatusBadRequest, response)
+	return echoContext.JSON(http.StatusOK, response)
 }

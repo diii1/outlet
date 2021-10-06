@@ -67,8 +67,8 @@ func (service *serviceCustomers) Login(email string, password string) (string, e
 	return token, nil
 }
 
-func (s *serviceCustomers) DeleteCustomer(id int, customer *Domain) (*Domain, error) {
-	result, err := s.repository.Delete(id, customer)
+func (service *serviceCustomers) DeleteCustomer(id int, customer *Domain) (*Domain, error) {
+	result, err := service.repository.Delete(id, customer)
 	if err != nil {
 		return &Domain{}, err
 	}

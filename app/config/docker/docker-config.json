@@ -4,14 +4,14 @@
       "address": ":8080"
     },
     "database": {
-      "host": "127.0.0.1",
+      "host": "mysql.docker",
       "port": "3306",
       "user": "root",
-      "pass": "kampusmerdeka",
-      "name": "kampusmerdeka"
+      "pass": "password",
+      "name": "outletonline"
     },
     "jwt": {
-      "secret": "supersecret12345!@#$%",
+      "secret": "secretjwt12345!@#$%",
       "expired": 2
     }
-  }
+}

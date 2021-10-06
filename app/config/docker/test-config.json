@@ -1,0 +1,17 @@
+{
+    "debug": true,
+    "server": {
+      "address": ":8080"
+    },
+    "database": {
+      "host": "mysql.docker",
+      "port": "3306",
+      "user": "root",
+      "pass": "password",
+      "name": "outletonline"
+    },
+    "jwt": {
+      "secret": "secretjwt12345!@#$%",
+      "expired": 2
+    }
+  }
