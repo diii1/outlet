@@ -26,8 +26,8 @@ func (service *serviceProductTypes) FindByID(id int) (*Domain, error) {
 	return productType, nil
 }
 
-func (s *serviceProductTypes) DeleteProductType(id int, productType *Domain) (*Domain, error) {
-	result, err := s.repository.Delete(id, productType)
+func (service *serviceProductTypes) DeleteProductType(id int, productType *Domain) (*Domain, error) {
+	result, err := service.repository.Delete(id, productType)
 	if err != nil {
 		return &Domain{}, err
 	}

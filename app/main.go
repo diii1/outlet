@@ -5,14 +5,17 @@ import (
 	_middleware "outlet/v1/app/middleware"
 	"outlet/v1/app/middleware/auth"
 	_handlerCustomer "outlet/v1/app/presenter/customers"
+	_handlerPaymentMethod "outlet/v1/app/presenter/paymentMethods"
 	_handlerProductType "outlet/v1/app/presenter/productTypes"
 	_handlerProduct "outlet/v1/app/presenter/products"
 	"outlet/v1/app/routes"
 	_serviceCustomer "outlet/v1/bussiness/customers"
+	_servicePaymentMethod "outlet/v1/bussiness/paymentMethods"
 	_serviceProductType "outlet/v1/bussiness/productTypes"
 	_serviceProduct "outlet/v1/bussiness/products"
 	mysqlRepo "outlet/v1/repository/mysql"
 	_repositoryCustomer "outlet/v1/repository/mysql/customers"
+	_repositoryPaymentMethod "outlet/v1/repository/mysql/paymentMethods"
 	_repositoryProductType "outlet/v1/repository/mysql/productTypes"
 	_repositoryProduct "outlet/v1/repository/mysql/products"
 
@@ -66,11 +69,16 @@ func main() {
 	productService := _serviceProduct.NewService(productRepository, productTypeService)
 	productHandler := _handlerProduct.NewHandler(productService)
 
+	paymentMethodRepository := _repositoryPaymentMethod.NewRepositoryMySQL(db)
+	paymentMethodService := _servicePaymentMethod.NewService(paymentMethodRepository)
+	paymentMethodHandler := _handlerPaymentMethod.NewHandler(paymentMethodService)
+
 	routesInit := routes.HandlerList{
-		JWTMiddleware:      configJWT.Init(),
-		HandlerCustomer:    *customerHandler,
-		HandlerProductType: *productTypeHandler,
-		HandlerProduct:     *productHandler,
+		JWTMiddleware:        configJWT.Init(),
+		HandlerCustomer:      *customerHandler,
+		HandlerProductType:   *productTypeHandler,
+		HandlerPaymentMethod: *paymentMethodHandler,
+		HandlerProduct:       *productHandler,
 	}
 
 	routesInit.RouteRegister(e)

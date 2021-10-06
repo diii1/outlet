@@ -6,46 +6,33 @@ import (
 	"gorm.io/gorm"
 )
 
-type repositoryProducts struct {
+type repoProducts struct {
 	DB *gorm.DB
 }
 
 func NewRepositoryMySQL(db *gorm.DB) products.Repository {
-	return &repositoryProducts{
+	return &repoProducts{
 		DB: db,
 	}
 }
 
-func (repository repositoryProducts) Insert(product *products.Domain) (*products.Domain, error) {
+func (repo *repoProducts) Insert(product *products.Domain) (*products.Domain, error) {
 	recordProduct := fromDomain(*product)
-	if err := repository.DB.Create(&recordProduct).Error; err != nil {
+	if err := repo.DB.Create(&recordProduct).Error; err != nil {
 		return &products.Domain{}, err
 	}
-	result := toDomain(recordProduct)
-	return &result, nil
-}
 
-// func (repository repositoryProducts) GetProudctTyeID(productTypeID int) (*products.Domain, error) {
-// 	recordProduct := Products{}
-// 	if err := repository.DB.Where("type_id = ?", productTypeID).Joins("ProductTypes").Last(&recordProduct).Error; err != nil {
-// 		return &products.Domain{}, err
-// 	}
-// 	result := toDomain(recordProduct)
-// 	return &result, nil
-// }
-
-func (repository repositoryProducts) FindByID(id int) (*products.Domain, error) {
-	recordProduct := Products{}
-	if err := repository.DB.Where("id = ?", id).First(&recordProduct).Error; err != nil {
+	record, err := repo.FindByID(int(recordProduct.ID))
+	if err != nil {
 		return &products.Domain{}, err
 	}
-	result := toDomain(recordProduct)
-	return &result, nil
+	return record, nil
 }
 
-func (repository repositoryProducts) Delete(id int, product *products.Domain) (*products.Domain, error) {
-	recordProduct := fromDomain(*product)
-	if err := repository.DB.Where("id = ?", id).Delete(&recordProduct).Error; err != nil {
+func (repo *repoProducts) FindByID(id int) (*products.Domain, error) {
+	var recordProduct Products
+
+	if err := repo.DB.Where("products.id = ?", id).Joins("ProductTypes").Find(&recordProduct).Error; err != nil {
 		return &products.Domain{}, err
 	}
 	result := toDomain(recordProduct)
