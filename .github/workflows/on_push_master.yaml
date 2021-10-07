@@ -51,7 +51,6 @@ jobs:
                   heroku_api_key: ${{secrets.HEROKU_API_KEY}}
                   heroku_app_name: "outlet-online-api"
                   heroku_email: "bayu.setiaji709@gmail.com"
-                  heroku_auth: login
-                  heroku_container: login
                   usedocker: true
+                  dontuseforce: true
     
