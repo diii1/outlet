@@ -40,3 +40,17 @@ jobs:
                   # mv ./app/config/example-config.json ./app/config/docker/test-config.json
                   go mod tidy
                   go test ./... -cover -failfast
+    deploy-heroku:
+        name: deploy
+        runs-on: ubuntu-latest
+        needs: api-test
+        steps:
+            - uses: actions/checkout@v2
+            - uses: akhileshns/heroku-deploy@v3.12.12
+              with:
+                  heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+                  heroku_app_name: "outlet-online-api"
+                  heroku_email: "bayu.setiaji709@gmail.com"
+                  usedocker: true
+                  dontuseforce: true
+    
